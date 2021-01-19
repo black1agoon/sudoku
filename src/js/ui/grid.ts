@@ -1,11 +1,17 @@
 // 生成九宫格
-const ToolKit = require('../core/toolkit.js')
-const Generator = require('../core/generator.js')
-const Sudoku = require('../core/sudoku.js')
-const Checker = require('../core/checker.js')
+// const Generator = require('../core/generator.js')
+// const Sudoku = require('../core/sudoku.js')
+// const Checker = require('../core/checker.js')
 
-module.exports = class Grid {
-  constructor(container) {
+import Generator from '../core/generator'
+import Sudoku from '../core/sudoku'
+import Checker from '../core/checker'
+import PopupNumbers from './popupnumber'
+
+
+export default class Grid {
+  private _$container: JQuery
+  constructor(container: JQuery) {
     this._$container = container
   }
   build() {
@@ -43,7 +49,7 @@ module.exports = class Grid {
   }
 
   layout() {
-    const width = $('span:first', this._$container).width()
+    const width = $('span:first', this._$container).width() as number
 
     $('span', this._$container)
       .height(width)
@@ -55,7 +61,7 @@ module.exports = class Grid {
     // $(this._$container).height(width)
   }
 
-  bindPopup(popupNumbers) { // popupNumbers 弹出盘
+  bindPopup(popupNumbers: PopupNumbers) { // popupNumbers 弹出盘
     this._$container.on('click', 'span', e => {
       const $cell = $(e.target) // $cell 每一个迷盘中的数字
       if ($cell.is('.fixed')) {
@@ -79,11 +85,11 @@ module.exports = class Grid {
    */
   check() {
     // 从界面获取需要检查的数据
-    const data = this._$container.children().map((rowIndex, div) => {
-      return $(div).children().map((colIndex, span) => parseInt($(span).text()) || 0)
-    }).toArray().map($data => $data.toArray())
+    const data = this._$container.children().toArray().map((div ): number[] => {
+      return $(div).children().toArray().map(span => parseInt($(span).text()) || 0)
+    })
 
-    console.log(data)
+    // console.log(data)
     const checker = new Checker(data)
     if (checker.check()) {
       return true

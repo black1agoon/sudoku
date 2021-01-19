@@ -1,8 +1,11 @@
 // 生成数独解决方案
-const Toolkit = require('./toolkit.js')
+import Toolkit from './toolkit'
+// const Toolkit = require('./toolkit.js')
 
-class Generator {
-  generate() {
+export class Generator {
+  matrix: number[][] = []
+  orders: number[][] = []
+  generate(): void {
     while (!this.internalGenerate()) {
       console.log('try again')
     }
@@ -23,7 +26,7 @@ class Generator {
     return Array.from({ length: 9 }).every((n, i) => this.fillNumber(i + 1))
   }
 
-  fillNumber(n) {
+  private fillNumber(n: number) {
     return this.fillRow(n, 0)
   }
 
@@ -32,7 +35,7 @@ class Generator {
    * @param n  值
    * @param rowIndex 行
    */
-  fillRow(n, rowIndex) {
+  private fillRow(n: number, rowIndex: number) {
     // console.log('rowIndex ==== ', rowIndex)
     if (rowIndex > 8) {
       return true
@@ -70,5 +73,5 @@ class Generator {
   }
 }
 
-module.exports = Generator
+export default Generator
 

@@ -1,8 +1,8 @@
 // 检查数据
 
-function checkArray(array) {
+function checkArray(array: number[]): boolean[] {
   const length = array.length
-  const marks = new Array(length)
+  const marks: boolean[] = new Array(length)
   marks.fill(true)
 
   for(let i = 0; i < length; i++) {
@@ -26,26 +26,31 @@ function checkArray(array) {
   return marks
 }
 
-const Toolkit = require('./toolkit.js')
+import Toolkit from './toolkit'
+// const Toolkit = require('./toolkit.js')
 // 输入: matrix, 用户完成的数独数据, 9 * 9
 // 处理: 对 matrix 行、列、宫进行检查, 并填写 marks
 // 输出: 检查是否成功、marks
 
-module.exports = class Checker {
-  constructor(matrix) {
+export class Checker {
+  private _matrix: number[][]
+  private _matrixMarks: boolean[][]
+  private _success: boolean = false
+
+  constructor(matrix: number[][]) {
     this._matrix = matrix
     this._matrixMarks = Toolkit.matrix.makeMatrix(true)
   }
 
-  get matrixMarks() {
+  get matrixMarks(): boolean[][] {
     return this._matrixMarks
   }
 
-  get isSuccess() {
+  get isSuccess(): boolean {
     return this._success
   }
 
-  check() {
+  check(): boolean {
     this.checkRows()
     this.checkCols()
     this.checkBoxes()
@@ -55,7 +60,7 @@ module.exports = class Checker {
     return this._success
   }
 
-  checkRows() {
+  private checkRows() {
     for(let rowIndex = 0; rowIndex < 9; rowIndex++) {
       const row = this._matrix[rowIndex]
       const marks = checkArray(row)
@@ -67,7 +72,7 @@ module.exports = class Checker {
     }
   }
 
-  checkCols() {
+  private checkCols() {
       for (let colIndex = 0; colIndex < 9; colIndex++) {
         const cols = []
         for (let rowIndex = 0; rowIndex < 9; rowIndex++) {
@@ -82,7 +87,7 @@ module.exports = class Checker {
       }
   }
 
-  checkBoxes() {
+  private checkBoxes() {
     for (let boxIndex = 0; boxIndex < 9; boxIndex++) {
       const boxes = Toolkit.box.getBoxCells(this._matrix, boxIndex)
       const marks = checkArray(boxes)
@@ -96,6 +101,8 @@ module.exports = class Checker {
   }
 
 }
+
+export default Checker
 
 // const Generator = require('./generator.js')
 // const gen = new Generator()

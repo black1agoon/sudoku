@@ -1,25 +1,29 @@
 module.exports = {
   entry: {
-    index: './js/index.js'
+    index: './js/index.ts'
   },
   output: {
     filename: '[name].js'
   },
+  mode: 'development', // 设置mode
   devtool: 'source-map',
   resolve: {
-    extensions: ['*.js']
+    extensions: [".ts"]
   },
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.ts$/,
         exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env']
-          }
-        }
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env']
+            }
+          },
+          'ts-loader'
+        ]
       }
     ]
   }

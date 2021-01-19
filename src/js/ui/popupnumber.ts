@@ -3,8 +3,10 @@
 // cell --(click) --> popup
 // popup --(click)--> n --(fill)--> cell
 
-module.exports = class PopupNumbers {
-  constructor($panel) {
+export class PopupNumbers {
+  private _$panel: JQuery
+  private _$targetCell: JQuery = {} as JQuery
+  constructor($panel: JQuery) {
     this._$panel = $panel.hide().removeClass('hidden')
 
     this._$panel.on('click', 'span', e => {
@@ -35,12 +37,13 @@ module.exports = class PopupNumbers {
     })
   }
 
-  popup($cell) {  // $cell 每一个迷盘中的数字
+  popup($cell: JQuery) {  // $cell 每一个迷盘中的数字
     this._$targetCell = $cell
     const { left, top } = $cell.position()
-    const bodyWidth = $(document.body).width()
+    const bodyWidth = $(document.body).width() as number
+    // const panelWidth = this._$panel.width()
     // console.log(left, this._$panel.width(), left + this._$panel.width())
-    if (left + this._$panel.width() > bodyWidth) {
+    if (left + this._$panel.width()! > bodyWidth) {
       this._$panel.css({
         right: 0,
         top: `${top}px`,
@@ -58,3 +61,5 @@ module.exports = class PopupNumbers {
     this._$panel.hide()
   }
 }
+
+export default PopupNumbers

@@ -2,9 +2,12 @@
 // 1.生成完成的解决方案, Generator
 // 2.随机去除部分数据: 按比例
 
-const Generator = require('./generator.js')
+// const Generator = require('./generator.js')
+import Generator from './generator'
 
-module.exports = class Sudoku {
+export class Sudoku {
+  solutionMatrix: number[][]
+  puzzleMatrix: number[][] = []
   constructor() {
     // 生成完成的解决方案
     const genterator = new Generator()
@@ -20,3 +23,4 @@ module.exports = class Sudoku {
     })
   }
 }
+export default Sudoku
